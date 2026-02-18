@@ -8,6 +8,7 @@ import ProjectsSection from '@/components/portfolio/ProjectsSection';
 import EducationSection from '@/components/portfolio/EducationSection';
 import CertificationsSection from '@/components/portfolio/CertificationsSection';
 import ContactSection from '@/components/portfolio/ContactSection';
+import Chatbot from '@/components/portfolio/Chatbot';
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
       <EducationSection />
       <CertificationsSection />
       <ContactSection />
+      <Chatbot />
     </div>
   );
 }
