@@ -36,6 +36,9 @@ CERTIFICATIONS:
 
 Keep responses concise, friendly, and professional. If asked something not covered here, politely say you don't have that information.`;
 
+const OWNER_EMAIL = 'christosmuhluriey222@gmail.com';
+const OWNER_WHATSAPP = '27813385218';
+
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
@@ -43,11 +46,44 @@ export default function Chatbot() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showHumanOptions, setShowHumanOptions] = useState(false);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  const sendQuestionDetails = (channel, question, answer) => {
+    const details = [
+      'Portfolio chatbot question received.',
+      '',
+      `Question: ${question}`,
+      `Answer: ${answer}`,
+      `Asked at: ${new Date().toLocaleString()}`,
+      `Page: ${window.location.href}`
+    ].join('\n');
+
+    if (channel === 'whatsapp') {
+      const whatsappUrl = `https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent(details)}`;
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    const subject = encodeURIComponent('New portfolio chatbot question');
+    const body = encodeURIComponent(details);
+    window.location.href = `mailto:${OWNER_EMAIL}?subject=${subject}&body=${body}`;
+  };
+
+  const requestHumanAssistance = (channel) => {
+    const lastUserMessage = [...messages].reverse().find((msg) => msg.role === 'user');
+    const lastAssistantMessage = [...messages].reverse().find((msg) => msg.role === 'assistant');
+
+    sendQuestionDetails(
+      channel,
+      lastUserMessage?.content || 'No question captured yet.',
+      lastAssistantMessage?.content || 'No assistant response captured yet.'
+    );
+  };
 
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
@@ -74,7 +110,7 @@ export default function Chatbot() {
       {/* Chat Button */}
       <motion.button
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 z-50 p-4 rounded-full bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-lg shadow-cyan-500/30 ${isOpen ? 'hidden' : ''}`}
+        className={`fixed bottom-3 right-3 sm:bottom-6 sm:right-6 z-50 p-4 rounded-full bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-lg shadow-cyan-500/30 ${isOpen ? 'hidden' : ''}`}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         initial={{ scale: 0 }}
@@ -91,7 +127,7 @@ export default function Chatbot() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-6 right-6 z-50 w-[360px] max-w-[calc(100vw-48px)] h-[500px] max-h-[calc(100vh-100px)] bg-slate-900 border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+            className="fixed bottom-3 right-3 sm:bottom-6 sm:right-6 z-50 w-[calc(100vw-24px)] sm:w-[380px] h-[min(72vh,560px)] sm:h-[500px] max-h-[calc(100vh-24px)] bg-slate-900 border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-cyan-500/10 to-teal-500/10">
@@ -156,6 +192,33 @@ export default function Chatbot() {
 
             {/* Input */}
             <div className="p-4 border-t border-white/10">
+              <div className="mb-3">
+                <button
+                  type="button"
+                  onClick={() => setShowHumanOptions(prev => !prev)}
+                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-slate-200 hover:bg-white/10 transition-colors"
+                >
+                  Need human assistance?
+                </button>
+                {showHumanOptions && (
+                  <div className="mt-2 grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => requestHumanAssistance('whatsapp')}
+                      className="px-3 py-2 rounded-lg bg-emerald-600/90 hover:bg-emerald-500 text-white text-sm transition-colors"
+                    >
+                      WhatsApp
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => requestHumanAssistance('email')}
+                      className="px-3 py-2 rounded-lg bg-cyan-600/90 hover:bg-cyan-500 text-white text-sm transition-colors"
+                    >
+                      Email
+                    </button>
+                  </div>
+                )}
+              </div>
               <form 
                 onSubmit={(e) => { e.preventDefault(); sendMessage(); }}
                 className="flex gap-2"

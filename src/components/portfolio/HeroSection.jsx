@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Github, Linkedin, ChevronDown, Download, Sparkles } from 'lucide-react';
+import cvFile from './Christoos_Muhluri_Mashele_CV.pdf';
 
 export default function HeroSection() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -30,7 +31,7 @@ export default function HeroSection() {
       />
 
       {/* Animated background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-900/90 to-slate-950/95">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-cyan-500/10 via-transparent to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-teal-500/10 via-transparent to-transparent" />
         
@@ -183,8 +184,8 @@ export default function HeroSection() {
             transition={{ delay: 0.7 }}
           >
             <motion.a
-              href="/Christos_Muhluri_Mashele_CV.pdf"
-              download="Christos_Muhluri_Mashele_CV.pdf"
+              href={cvFile}
+              download="Christoos_Muhluri_Mashele_CV.pdf"
               className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-500 text-white font-medium shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}

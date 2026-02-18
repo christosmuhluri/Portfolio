@@ -12,7 +12,7 @@ import Chatbot from '@/components/portfolio/Chatbot';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-slate-950 text-white scroll-smooth">
+    <div className="min-h-screen bg-transparent text-white scroll-smooth">
       <Navbar />
       <HeroSection />
       <AboutSection />

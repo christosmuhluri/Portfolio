@@ -86,3 +86,93 @@
     @apply bg-background text-foreground;
   }
 }
+
+.tech-bg-base {
+  background: radial-gradient(circle at 20% 20%, #0f172a 0%, #020617 55%, #02040b 100%);
+}
+
+.tech-bg-grid {
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  animation: tech-grid-pan 28s linear infinite;
+}
+
+.tech-bg-circuit {
+  background-image:
+    linear-gradient(90deg, transparent 0 16%, rgba(20, 184, 166, 0.12) 16% 17%, transparent 17% 36%, rgba(20, 184, 166, 0.12) 36% 37%, transparent 37% 58%, rgba(20, 184, 166, 0.12) 58% 59%, transparent 59% 100%),
+    linear-gradient(0deg, transparent 0 24%, rgba(34, 211, 238, 0.1) 24% 25%, transparent 25% 48%, rgba(34, 211, 238, 0.1) 48% 49%, transparent 49% 72%, rgba(34, 211, 238, 0.1) 72% 73%, transparent 73% 100%);
+  animation: tech-circuit-drift 20s ease-in-out infinite;
+}
+
+.tech-bg-scan {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(34, 211, 238, 0.09) 50%,
+    transparent 100%
+  );
+  background-size: 100% 220px;
+  animation: tech-scan 10s linear infinite;
+}
+
+.tech-bg-node {
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: rgba(103, 232, 249, 0.8);
+  box-shadow: 0 0 0 1px rgba(6, 182, 212, 0.35);
+  animation: tech-node-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes tech-grid-pan {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-48px, -48px, 0);
+  }
+}
+
+@keyframes tech-circuit-drift {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-16px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes tech-scan {
+  from {
+    background-position: 0 -220px;
+  }
+  to {
+    background-position: 0 calc(100vh + 220px);
+  }
+}
+
+@keyframes tech-node-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tech-bg-grid,
+  .tech-bg-circuit,
+  .tech-bg-scan,
+  .tech-bg-node {
+    animation: none !important;
+  }
+}
